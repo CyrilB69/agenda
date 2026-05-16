@@ -1500,6 +1500,7 @@ function page_admin_backup_settings_save(): void
     $frequency = normalize_automatic_backup_frequency(post_string('frequency'));
     $cronToken = post_string('cron_token');
     $regenerateToken = post_string('regenerate_token') === '1';
+    $backupAction = post_string('backup_action', 'save');
     $errors = [];
 
     if ($regenerateToken || $cronToken === '') {
@@ -1517,7 +1518,7 @@ function page_admin_backup_settings_save(): void
         }
     }
 
-    if ($enabled && !$validRecipients) {
+    if (($enabled || $backupAction === 'send') && !$validRecipients) {
         $errors[] = 'Indiquez au moins un destinataire valide pour la sauvegarde automatique.';
     }
 
@@ -1540,10 +1541,21 @@ function page_admin_backup_settings_save(): void
         'token_regenerated' => $regenerateToken,
     ]);
 
+    if ($backupAction === 'send') {
+        $result = run_automatic_backup(true, true);
+        if ($result['sent']) {
+            flash('success', 'Configuration enregistrée. ' . $result['message']);
+        } else {
+            flash('error', 'Configuration enregistrée, mais l’envoi a échoué : ' . $result['message']);
+        }
+        redirect('admin_backup');
+    }
+
     flash('success', 'Configuration de sauvegarde automatique enregistrée.');
     if ($enabled && !mail_notifications_enabled()) {
         flash('error', 'Attention : les notifications e-mail sont désactivées, la sauvegarde automatique ne pourra pas être envoyée.');
     }
+
     redirect('admin_backup');
 }
 
@@ -1552,7 +1564,7 @@ function page_admin_backup_run(): void
     require_admin();
     ensure_csrf();
 
-    $result = run_automatic_backup(true);
+    $result = run_automatic_backup(true, true);
     if ($result['sent']) {
         flash('success', $result['message']);
     } else {
@@ -3155,7 +3167,8 @@ function render_automatic_backup_form(array $settings): void
             <input name="cron_token" value="<?= e($settings['cron_token']) ?>" minlength="24" maxlength="128">
         </label>
         <div class="form-actions">
-            <button class="button secondary" type="submit">Enregistrer l’automatisation</button>
+            <button class="button secondary" type="submit" name="backup_action" value="save">Enregistrer l’automatisation</button>
+            <button class="button primary" type="submit" name="backup_action" value="send">Enregistrer et envoyer maintenant</button>
             <button class="button secondary" type="submit" name="regenerate_token" value="1">Renouveler la clé</button>
         </div>
     </form>
@@ -3168,11 +3181,6 @@ function render_automatic_backup_form(array $settings): void
             <p class="muted"><?= e($settings['last_error']) ?></p>
         <?php endif; ?>
     </div>
-
-    <form method="post" action="<?= e(url_for('admin_backup_run')) ?>" class="form-stack">
-        <?= csrf_field() ?>
-        <button class="button primary" type="submit">Envoyer une sauvegarde maintenant</button>
-    </form>
 
     <div class="empty-state compact">
         <p><strong>Tâche planifiée OVH</strong></p>

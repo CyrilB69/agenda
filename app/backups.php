@@ -190,11 +190,11 @@ function automatic_backup_token_is_valid(string $token): bool
     return $expected !== '' && hash_equals($expected, $token);
 }
 
-function run_automatic_backup(bool $force = false): array
+function run_automatic_backup(bool $force = false, bool $ignoreEnabled = false): array
 {
     $settings = automatic_backup_settings(false);
 
-    if (!$settings['enabled']) {
+    if (!$settings['enabled'] && !$ignoreEnabled) {
         return ['status' => 'disabled', 'sent' => false, 'message' => 'La sauvegarde automatique est désactivée.'];
     }
 

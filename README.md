@@ -155,6 +155,8 @@ La restauration remplace les données actuelles. Avant toute restauration, tél�
 
 La page `Sauvegardes` permet aussi d’activer une sauvegarde automatique par e-mail vers une ou plusieurs adresses dédiées. L’e-mail contient le fichier JSON complet en pièce jointe.
 
+Le bouton `Enregistrer et envoyer maintenant` sauvegarde d’abord les paramètres saisis, puis envoie immédiatement une sauvegarde au destinataire indiqué. Cet envoi manuel ne nécessite pas que l’envoi automatique soit activé.
+
 Pour automatiser l’envoi avec les tâches planifiées OVH, utilisez le script PHP côté hébergement. Aucun token n’est nécessaire dans ce mode :
 
 - script OVH : `/chemin/agenda/cron/backup.php`
