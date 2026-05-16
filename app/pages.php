@@ -3121,6 +3121,7 @@ function render_mail_settings_form(array $settings): void
 
 function render_automatic_backup_form(array $settings): void
 {
+    $cliScriptPath = realpath(__DIR__ . '/../cron/backup.php') ?: (__DIR__ . '/../cron/backup.php');
     $cronUrl = configured_public_url() !== ''
         ? configured_public_url() . 'cron_backup.php?token=' . rawurlencode((string) $settings['cron_token'])
         : 'cron_backup.php?token=' . rawurlencode((string) $settings['cron_token']);
@@ -3150,7 +3151,7 @@ function render_automatic_backup_form(array $settings): void
                 <?php endforeach; ?>
             </select>
         </label>
-        <label>Clé cron
+        <label>Clé pour appel URL externe
             <input name="cron_token" value="<?= e($settings['cron_token']) ?>" minlength="24" maxlength="128">
         </label>
         <div class="form-actions">
@@ -3174,10 +3175,14 @@ function render_automatic_backup_form(array $settings): void
     </form>
 
     <div class="empty-state compact">
-        <p class="muted">URL cron OVH :</p>
+        <p><strong>Tâche planifiée OVH</strong></p>
+        <p class="muted">Utilisez le script PHP ci-dessous. Aucun token n’est nécessaire dans ce mode.</p>
+        <code><?= e($cliScriptPath) ?></code>
+        <p class="muted">Si l’interface demande une commande complète :</p>
+        <code>php <?= e($cliScriptPath) ?></code>
+        <p><strong>Appel URL externe</strong></p>
+        <p class="muted">À utiliser seulement avec un service qui appelle une URL publique.</p>
         <code><?= e($cronUrl) ?></code>
-        <p class="muted">Commande CLI possible :</p>
-        <code>php /chemin/agenda/cron/backup.php</code>
     </div>
     <?php
 }

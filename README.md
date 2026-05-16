@@ -155,12 +155,14 @@ La restauration remplace les données actuelles. Avant toute restauration, tél�
 
 La page `Sauvegardes` permet aussi d’activer une sauvegarde automatique par e-mail vers une ou plusieurs adresses dédiées. L’e-mail contient le fichier JSON complet en pièce jointe.
 
-Pour automatiser l’envoi, créez une tâche planifiée OVH qui appelle l’un de ces points d’entrée :
+Pour automatiser l’envoi avec les tâches planifiées OVH, utilisez le script PHP côté hébergement. Aucun token n’est nécessaire dans ce mode :
 
-- URL protégée par clé : `https://votre-domaine.fr/agenda/public/cron_backup.php?token=VOTRE_CLE`
-- script CLI : `php /chemin/agenda/cron/backup.php`
+- script OVH : `/chemin/agenda/cron/backup.php`
+- commande CLI si demandée : `php /chemin/agenda/cron/backup.php`
 
-La clé cron, le destinataire, la fréquence et le dernier statut d’envoi sont configurables depuis l’administration.
+L’URL protégée par clé `https://votre-domaine.fr/agenda/public/cron_backup.php?token=VOTRE_CLE` reste disponible uniquement si vous utilisez un service externe qui appelle une URL publique.
+
+Le destinataire, la fréquence, la clé pour appel URL externe et le dernier statut d’envoi sont configurables depuis l’administration.
 
 ## Lancement avec PHP
 
