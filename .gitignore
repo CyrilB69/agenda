@@ -1,0 +1,9 @@
+/config/config.php
+/storage/*.sqlite
+/storage/*.sqlite-shm
+/storage/*.sqlite-wal
+/storage/charters/*
+!/storage/charters/.gitkeep
+/public/uploads/branding/*
+!/public/uploads/branding/.gitkeep
+.DS_Store
