@@ -95,7 +95,7 @@ Le fichier `config/config.php` sert de configuration par défaut :
     ],
 ],
 'site' => [
-    'public_url' => 'https://st-pierre-la-palud.fr/agenda/public/',
+    'public_url' => 'https://votre-domaine.fr/agenda/public/',
 ],
 ```
 

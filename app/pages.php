@@ -3109,7 +3109,7 @@ function render_mail_settings_form(array $settings): void
             <input name="from_name" value="<?= e($settings['from_name']) ?>" placeholder="Agenda des salles communales">
         </label>
         <label>URL publique de l’agenda
-            <input type="url" name="public_url" value="<?= e($settings['public_url']) ?>" placeholder="https://st-pierre-la-palud.fr/agenda/public/">
+            <input type="url" name="public_url" value="<?= e($settings['public_url']) ?>" placeholder="https://votre-domaine.fr/agenda/public/">
         </label>
         <label>Destinataires administrateurs
             <textarea name="admin_recipients" rows="4" placeholder="mairie@votre-domaine.fr"><?= e($settings['admin_recipients']) ?></textarea>

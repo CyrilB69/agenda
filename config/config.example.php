@@ -8,7 +8,7 @@ return [
 
     'site' => [
         // Public URL used in notification e-mails.
-        'public_url' => getenv('SITE_PUBLIC_URL') ?: 'https://st-pierre-la-palud.fr/agenda/public/',
+        'public_url' => getenv('SITE_PUBLIC_URL') ?: 'https://votre-domaine.fr/agenda/public/',
     ],
 
     'branding' => [
